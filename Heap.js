@@ -29,8 +29,11 @@ Heap.prototype.heapifyDown = function(){
   var i = 0;
   var moved = this.store[0];
   while (true) {
-    var child_idx = this.findChildIdx(i);
-    var child_values = child_idx.map(function(el){return this.store[el];});
-    var smallChild = child_idx[child_values.reduce(function(a, b, i, arr) {return Math.min(a,b);};)];
+    var smallChild;
+    if (this.store[this.findChildIdx(i)[0]] <= this.store[this.findChildIdx(i)[1]] && this.store){
+      smallChild = this.findChildIdx(i)[0];
+    } else {
+      smallChild = this.findChildIdx(i)[1];
+    }  
   }
 };
