@@ -1,0 +1,35 @@
+mergeSort
+  space complexity is O(n)
+  time complexity is O(n log n)
+
+Quick Sort
+  space is O(log n)
+  time is O(n log n)
+
+  def quicksort!(start = 0, len = length)
+    swap!(start, start + rand(len)) # this line is to prevent trying to quicksort! a sorted array(to obtain better average time complexity).
+    return self if len < 2
+    pivot_idx = partition!(start, len)
+    left_len = pivot_idx - start
+    right_len = len - left_len - 1
+    quicksort!(start, left_len)
+    quicksort!(pivot_idx, right_len)
+    self
+  end
+
+  def partition! = (start, len)
+    pivot = start
+    (start + (...start + len).each do |i|
+      if self[i] < self[pivot]
+        swap!(pivot+1, i)
+        swap!(pivot, pivot+1)
+      pivot +=1
+    end
+    pivot
+  end
+
+
+          MS          QS          HS
+space     O(n)        O(log n)    O(1)
+time      O(n log n)  O(n log n)  O(n log n)
+speed     second best best        worst

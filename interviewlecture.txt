@@ -1,0 +1,24 @@
+tell me what you've been working on lately?
+
+
+tell me about a bug or engineering problem you faced and how you solved it.
+  tell behavior, runs slow, does not reload properly.
+
+  what was causing the behavior.
+
+  how you fixed it.
+
+tell me about one of your projects.
+
+sympathize that we are not CS degrees
+  we study the basics like recursion, made data structures, understood algorithms
+  time and space complexity, I might not have all of the theory that CS people have
+  but I have more practical knowledge.
+
+
+
+design patterns, architecture, scaling!
+
+scaling => scala
+functional programing?
+c
