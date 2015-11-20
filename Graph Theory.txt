@@ -1,0 +1,209 @@
+BST and Trees of any kind are graphs.
+directed graph. if each item can only travel a certain direction.
+Graph is cycalic if one can.
+graph does not have to be connected to the rest of itself.
+
+circles = vertices, lines = edges
+weighted graph
+directed graph vertices can only traverse a certain direction
+cyclic graphs vertices only traverse a certain direction and 'circles'
+sparse vs dense graphs each vertice gets hella edges to other vertices or not(dense/sparse)
+
+represent graphs using Adjacency list, or adjacency matrix
+
+Adjacency matrix
+use for dense shit
+1 = 'there is an edge between two vertices'
+0 = 'nahh'
+  a b c d e f
+a 1 0 1 0 1 1
+b 1 1 1 1 1 1
+c 0 1 1 1 1 1
+d 0 0 1 1 1 1
+e 0 0 0 1 1 1
+f 1 1 0 1 1 0
+
+Adjacency List
+use for sparse things
+
+vertice => all vertices it points to.
+
+{
+ a => b, c
+ b => c, d
+ C => a, b, d, e
+}
+
+Class Vertex
+  def initialize(value)
+    @value = value
+    @out_edges = []
+    @in_edges = []
+  end
+
+end
+
+class Edge
+  def initialize(from, to)
+    @from, @to = from, to
+    @from.out_edges << self
+    @to.in_edges << self
+  end
+end
+
+DAG => Directed, Acyclic Graph
+
+
+BREATH FIRST SEARCH
+Best algorithm for finding shortest path in unweighted graph.
+
+def BFS(vertices, source, target = nil)  # worst case is O(|vertices| + |edges|)(linear time)
+
+  paths = {}
+  queue = [[source,0]]
+
+  until queue.empty?
+    next if paths[vertex]
+    vertex, distance = queue.shift
+    return distance if vertex.val == target
+    paths[vertex] = distance
+    vertex.out_edges.each do |edge|
+
+      queue << [edge.to, distance+ 1] unless paths[edge.to]
+    end
+  end
+end
+
+in a dense graph, E dominates V
+in a sparse graph, they're proportional
+
+connected components:(undirected)
+  take every node
+  connected_components = Set.new
+  vertices.each |node|
+    if !explored[vertex]
+      connected_components << bfs(vertex)
+    end
+  end
+
+  return connected_components
+
+Topological sort:
+only works on directed graph
+that are acyclic(no cycles)
+
+depth first search until 'sink vertex'(vertex that doesn't point to anything)
+push into array, remove from graph.
+
+repeat until out of nodes.
+Quadratic, don't want none of that.
+
+Kahn's algorithm                                    O(|v| + |e|) time
+
+def topo_sort(graph)
+# figure out dependency count
+  counts = {}
+  ordering = []
+  queue = []
+  graph.each do |vertex| #                                    O(v)
+    counts[vertex] = vertex.in_edges.count
+    queue << vertex if count[vertex] == 0
+  end
+  until queue.empty? #                                    O(v)
+    v = queue.shift
+    ordering << v
+    v.out_edges.each do |e|                                     O(e/v)
+      v2 = e.to
+      counts[v2] -=1
+      queue << v2 if counts[v2] == 0
+    end
+  end
+  ordering
+end
+
+Tarian's Algorithm                          O(|v| + |e|)
+
+def topo_sort(graph)
+  explored = Set.new
+  ordering = []
+  graph.each do |vertex|
+    dfs!(vertex, explored, ordering) unless explored.include(vertex)
+  end
+  ordering
+end
+
+def dfs!(vertex, explored, ordering)
+  explored << vertex
+  vertex.out_edges.each do |v2|
+    dfs!(v2, explored, ordering) unless explored.include[v2]
+  end
+  ordering << vertex
+end
+
+
+
+
+BFS finds shortest paths. but only works on unweighted graphs
+
+
+
+Greedy Algorithm: find the best path at it's current moment. assuming no negative edges.
+consume the vertex and increase the weight of the consumed vertex based on origin's
+weight to the consumed vertex.
+
+Pseudo code:
+  find shortest outgoing edge
+  suck vertex in
+  update vertex outgoing edges
+  repeat
+
+end pseudo
+
+def dijkstra(graph, source, target)                     O(|v|**2)
+
+
+#Bad bad! you wanna heap the frontier because you always want the min.
+
+  frontier = Hash.new(Float::INFINITY)
+  shortest_paths = { source: 0}
+  frontier[source] = 0
+
+  until frontier.empty?                                 O(v)
+    v, c = frontier.min_by(&:last)                      O(v) bottle neck to make it |v|**2
+    frontier.delete(v)
+    return c if v == target
+    shortest_paths[v] = c
+    v.out_edges.each do |edge|                          O(e/v) or O(e)
+      v2,c2 = edge.to, edge.weight
+      total_cost = c + c2
+      frontier[v2] = [frontier[v2],total_cost.min]
+    end
+  end
+  shortest_paths
+end
+
+
+
+good shit:
+
+def dijkstra(source, target = nil)                        O(|e|log v)
+  frontier = PriorityQueue.new
+  frontier.insert(0,source)
+  shorrtest_paths = {}
+
+  until frontier.empty?                                   O(|v|)
+    c, v = frontier.pop_min                               O(log |v|)
+    return c if v == target
+    shortest_paths[v] = c
+    v.out_edges.each do |edge|
+      v2,c2 = edge.to, edge.weight
+      next if shortest_path[v2]
+      new_c = c + c2
+      frontier.insert(new_c,v2)                           O(log |v|)
+    end
+  end
+  shortest_paths
+end
+
+sparse graph use this version.
+dense graph, use the previous version.

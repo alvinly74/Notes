@@ -1,0 +1,21 @@
+2 items is impossible to be not balanced.
+3 items or more can be unbalanced.
+
+with 3 nodes theres 4 ways to be unbalanced.
+
+  3
+ 2  should Right Rotate the 3 down to    2
+1                                       1 3
+
+1
+ 2  should Left Rotate the 1 down to     2
+  3                                     1 3
+
+
+1                        1
+  3 can be converted to   2 using Right Rotate. then fixed with a left Rotation
+ 2                         3
+
+  3                       3
+1   can be converted to  2  using Left Rotate. then fixed with a Right rotation
+ 2                      1
